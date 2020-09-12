@@ -1,0 +1,19 @@
+<div class="container-fluid">
+    <div class="topnav">
+        <a class="active" >
+            <i class="fas fa-stethoscope"></i> Appointment Booking</a>
+        <a [routerLink]="['dashboard/personal-information']" *ngIf="isLogin">
+            <i class="fas fa-user"></i>  Update Profile</a>
+        <a [routerLink]="['dashboard/bookappointment']" *ngIf="isLogin">
+            <i class="fas fa-calendar-check"></i> Book Appointment</a>
+        <a [routerLink]="['dashboard/viewappointments']" *ngIf="isLogin">
+            <i class="far fa-calendar-check"></i> View Appointment</a>
+        <div class="topnav-right">
+            <button [routerLink]="['register']" class="btn btn-primary my-2 my-sm-1 mr-sm-2" *ngIf="!isLogin">Register</button>
+            <button [routerLink]="['login']" class="btn btn-primary my-2 my-sm-1 mr-sm-2" *ngIf="!isLogin">Login</button>
+            <button  class="btn btn-primary my-3 my-sm-2" (click)="logout()" *ngIf="isLogin">Logout</button>
+        </div>
+    </div>
+    
+    <router-outlet></router-outlet>
+</div>

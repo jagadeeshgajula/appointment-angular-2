@@ -1,0 +1,36 @@
+<div *ngIf="exists">
+<h3 > {{ 'HOME.TITLE' | translate}}</h3>
+<label for ="">
+  <select #langselect (change)="translate.use(langselect.value)">
+    <option *ngFor="let lang of translate.getLangs()" [value]="lang">{{lang}}</option>
+  </select>
+</label>
+</div>
+<div >
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Appointment Type</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">End time</th>
+            <th scope="col">Title</th>
+            <th scope="col">Location</th>
+            <th scope="col">Comments</th>
+            <th scope="col">Timezone</th>
+          </tr>
+        </thead>
+        <tbody class="table-striped">
+            <tr *ngFor="let appointment of appointmentsList; let i=index">
+                <th scope="row">{{i+1}}</th>
+                <td>{{appointment.appointmentType}}</td>
+                <td>{{appointment.startDate | date}}</td>
+                <td>{{appointment.startTime }}</td>
+                <td>{{appointment.title }}</td>
+                <td>{{appointment.location }}</td>
+                <td>{{appointment.comments }}</td>
+                <td>{{appointment.timezone }}</td>
+              </tr>
+        </tbody>
+    </table>
+</div>

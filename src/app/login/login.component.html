@@ -1,0 +1,27 @@
+<div class="login-form">
+    <form #loginForm="ngForm" [formGroup]="loginFormObj" (ngSubmit)="loginFormSubmit()">
+        <h2 class="text-center">Log in</h2>       
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Username" formControlName="userName" >
+            <div *ngIf="loginFormObj.get('userName').touched" class="error-msg-common text-danger">
+                <div *ngIf="loginFormObj.get('userName').errors?.required">
+                    *Please fill Username
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" placeholder="Password" formControlName="password">
+            <div *ngIf="loginFormObj.get('password').touched" class="error-msg-common text-danger">
+                <div *ngIf="loginFormObj.get('password').errors?.required">
+                    *Please enter your password
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Log in</button>
+        </div>       
+    </form>
+    <p class="text-center"><a [routerLink]="['/register']">Create an Account</a></p>
+</div>
+
+<div id="snackbar">{{message}}</div>
