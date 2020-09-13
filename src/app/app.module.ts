@@ -1,10 +1,9 @@
+import { HttpInterceptorAuthService } from './http-interceptor-auth.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
-
-
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
@@ -20,44 +19,44 @@ import { ToastrModule } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
-import {HttpClient} from '@angular/common/http';
-export function HttpLoaderFacotry(http:HttpClient)
-{
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient } from '@angular/common/http';
+export function HttpLoaderFacotry(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 @NgModule({
-    declarations: [
-        AppComponent,
-        RegisterComponent,
-        LoginComponent,
-        DashboardComponent,
-        HomeComponent,
-        PersonalInformationComponent,
-        BookappointmentComponent,
-        ViewappointmentsComponent
-    ],
-    imports: [
-        BrowserModule,
-        FormsModule,
-        ReactiveFormsModule,
-        RouterModule,
-        HttpClientModule,
-        AppRoutingModule,
-        ToastrModule.forRoot(),
-        CommonModule,
-        BrowserAnimationsModule,
-        FontAwesomeModule,
-        TranslateModule.forRoot({
-            loader:{
-              provide:TranslateLoader,
-              useFactory:HttpLoaderFacotry,
-              deps:[HttpClient]
-            }
-          })
-    ],
-    providers: [RegistrationService, BookingService],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    RegisterComponent,
+    LoginComponent,
+    DashboardComponent,
+    HomeComponent,
+    PersonalInformationComponent,
+    BookappointmentComponent,
+    ViewappointmentsComponent
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    HttpClientModule,
+    AppRoutingModule,
+    ToastrModule.forRoot(),
+    CommonModule,
+    BrowserAnimationsModule,
+    FontAwesomeModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFacotry,
+        deps: [HttpClient]
+      }
+    })
+  ],
+  providers: [RegistrationService, BookingService,
+    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorAuthService, multi: true }],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

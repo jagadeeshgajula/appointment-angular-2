@@ -7,8 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class LoginService {
 
   constructor(private httpClient: HttpClient) { }
-  login(userName, password)
-  {
-    return this.httpClient.get("http://localhost:6001/findUser?userName="+userName+"&password="+password)
+  login(loginRequest) {
+    return this.httpClient.post("http://localhost:6001/authenticate", loginRequest);
   }
 }

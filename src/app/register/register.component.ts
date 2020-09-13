@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { validateDOB } from './customedate.validator';
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private registrationService: RegistrationService, private router:Router) {
+  constructor(private registrationService: RegistrationService, private router: Router, private toastr: ToastrService,) {
 
     this.registerFormObj = new FormGroup(this.registerFormValidations);
 
@@ -58,24 +59,25 @@ export class RegisterComponent implements OnInit {
 
   registrationFormSubmit() {
 
-    if(this.registerFormObj.get('ssnNumber').errors || this.registerFormObj.get('displayName').errors || 
-    this.registerFormObj.get('countryVisited').errors){
+    if (this.registerFormObj.get('ssnNumber').errors || this.registerFormObj.get('displayName').errors ||
+      this.registerFormObj.get('countryVisited').errors) {
       alert("Please Fill Mandatory Fields");
       return;
     }
     console.log(this.registerFormObj.valid);
-    if(!this.registerFormObj.valid){
+    if (!this.registerFormObj.valid) {
       alert('Not a Valid Form, Please Check All Fields and Formats');
       return;
     }
     console.log(this.registerFormObj.value);
 
-    this.registrationService.saveUser(this.registerFormObj.value).subscribe(response=>{
-      alert("Successfully Registered : "+ response['memberId'])
+    this.registrationService.saveUser(this.registerFormObj.value).subscribe(response => {
+
+      this.toastr.success('Successfully Registered', response['memberId'], { timeOut: 5000 })
       this.registerFormObj.reset()
-      this.router.navigate(["/login"]);
-    },error=>{
-      alert("Error Occured Please Check")
+      this.router.navigate(["/home/login"]);
+    }, error => {
+      this.toastr.error('Error Occured', 'Please Contact Administrator', { timeOut: 5000 })
     })
   }
 
@@ -88,7 +90,7 @@ export class RegisterComponent implements OnInit {
     if (diff >= 60) {
       this.registerFormObj.get('citizenStatus').setValue("Senior Citizen")
     }
-    else if(diff >=18){
+    else if (diff >= 18) {
       this.registerFormObj.get('citizenStatus').setValue("Citizen")
     }
     else {

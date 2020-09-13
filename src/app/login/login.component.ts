@@ -12,13 +12,13 @@ import { IsloginService } from './islogin.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private loginService: LoginService, private route: Router,private toastr: ToastrService,
-    private isloginService:IsloginService) {
+  constructor(private loginService: LoginService, private route: Router, private toastr: ToastrService,
+    private isloginService: IsloginService) {
     this.loginFormObj = new FormGroup(this.loginFormValidations);
   }
 
   ngOnInit(): void {
-    
+
   }
 
   message = undefined;
@@ -36,16 +36,15 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-
-    this.loginService.login(this.loginFormObj.get("userName").value, this.loginFormObj.get("password").value).subscribe(response => {
-
+    let payload = Object(this.loginFormObj.value)
+    this.loginService.login(payload).subscribe(response => {
       if (response != null && response != undefined) {
-       
         this.toastr.success('Loggedin Successfully', '', {
           timeOut: 3000,
         });
-        localStorage.setItem("uid", response['userId'])
+        localStorage.setItem("uid", response['id'])
         localStorage.setItem("un", response['userName'])
+        localStorage.setItem("token", "Bearer " + response['token'])
         this.isloginService.setisLogin(true);
         this.route.navigate(["home/dashboard"]);
       }
@@ -54,7 +53,6 @@ export class LoginComponent implements OnInit {
           timeOut: 3000,
         });
       }
-
     },
       error => {
         this.toastr.error('Exception Occured', 'Major Error', {
@@ -63,6 +61,4 @@ export class LoginComponent implements OnInit {
       }
     )
   }
-
-  
 }
